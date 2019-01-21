@@ -16,6 +16,7 @@ public class MenuScreen extends Base2DScreen {
 
     Vector2 pos;
     Vector2 v;
+    Vector2 lastTouched;
 
     @Override
     public void show() {
@@ -24,7 +25,8 @@ public class MenuScreen extends Base2DScreen {
         background = new Texture("bg.png");
         img = new Texture("badlogic.jpg");
         pos = new Vector2(0, 0);
-        v = new Vector2(1,1);
+        v = new Vector2(0,0);
+        lastTouched = new Vector2(0,0);
     }
 
     @Override
@@ -36,9 +38,7 @@ public class MenuScreen extends Base2DScreen {
         batch.draw(background, 0, 0);
         batch.draw(img, pos.x, pos.y);
         batch.end();
-        if (Gdx.graphics.getWidth() - 256 > pos.x && Gdx.graphics.getHeight() - 256 > pos.y) {
-            pos.add(v);
-        }
+        pos.add(v);
     }
 
     @Override
@@ -56,6 +56,8 @@ public class MenuScreen extends Base2DScreen {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         System.out.println("touchDown " + screenX + " " + (Gdx.graphics.getHeight() - screenY));
+        lastTouched.set(screenX, Gdx.graphics.getHeight() - screenY);
+        v.set(lastTouched.cpy().sub(pos).setLength(0.5f));
         return super.touchDown(screenX, screenY, pointer, button);
     }
 }
