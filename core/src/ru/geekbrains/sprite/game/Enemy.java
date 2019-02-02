@@ -4,12 +4,9 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import ru.geekbrains.math.Rect;
 import ru.geekbrains.pool.BulletPool;
 
 public class Enemy extends Ship {
-
-    private Rect worldBounds;
 
     private Vector2 v0 = new Vector2();
 
@@ -18,16 +15,13 @@ public class Enemy extends Ship {
         this.shootSound = shootSound;
         this.bulletPool = bulletPool;
         this.v.set(v0);
-        this.bulletV = new Vector2(0, -0.5f);
+        this.bulletV = new Vector2();
     }
 
     @Override
     public void update(float delta) {
         super.update(delta);
         this.pos.mulAdd(v, delta);
-        if (isOutside(worldBounds)) {
-            destroy();
-        }
     }
 
     public void set(
@@ -39,8 +33,7 @@ public class Enemy extends Ship {
             int bulletDamage,
             float reloadInterval,
             float height,
-            int hp,
-            Rect worldBounds
+            int hp
     ) {
         this.regions = regions;
         this.v0.set(v0);
@@ -53,7 +46,5 @@ public class Enemy extends Ship {
         this.hp = hp;
         reloadTimer = reloadInterval;
         v.set(v0);
-        this.worldBounds = worldBounds;
-
     }
 }
