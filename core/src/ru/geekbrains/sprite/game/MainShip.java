@@ -11,6 +11,7 @@ import ru.geekbrains.pool.ExplosionPool;
 
 public class MainShip extends Ship {
 
+    public final int MAIN_SHIP_HP = 100;
     private static final int INVALID_POINTER = -1;
 
     private final Vector2 v0 = new Vector2(0.5f, 0);
@@ -39,7 +40,7 @@ public class MainShip extends Ship {
     public void startNewGame() {
         stop();
         pos.x = worldBounds.pos.x;
-        this.hp = 100;
+        this.hp = MAIN_SHIP_HP;
         flushDestroy();
     }
 

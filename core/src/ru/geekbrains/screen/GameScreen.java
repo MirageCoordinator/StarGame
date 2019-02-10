@@ -41,6 +41,7 @@ public class GameScreen extends Base2DScreen {
     private MainShip mainShip;
     private MessageGameOver messageGameOver;
     private StartNewGame startNewGame;
+    private Texture hpBar;
 
     private BulletPool bulletPool;
     private ExplosionPool explosionPool;
@@ -67,6 +68,7 @@ public class GameScreen extends Base2DScreen {
         music.setVolume(0.8f);
         music.play();
         bg = new Texture("textures/bg.png");
+
         background = new Background(new TextureRegion(bg));
         atlas = new TextureAtlas("textures/mainAtlas.tpack");
         star = new Star[64];
@@ -83,6 +85,8 @@ public class GameScreen extends Base2DScreen {
         startNewGame = new StartNewGame(atlas, this);
         this.font = new Font("font/font.fnt", "font/font.png");
         this.font.setSize(0.02f);
+        hpBar = new Texture("textures/hpbar.png");
+
         startNewGame();
     }
 
@@ -196,7 +200,8 @@ public class GameScreen extends Base2DScreen {
         sbHP.setLength(0);
         sbLevel.setLength(0);
         font.draw(batch, sbFrags.append(FRAGS).append(frags), worldBounds.getLeft(), worldBounds.getTop());
-        font.draw(batch, sbHP.append(HP).append(mainShip.getHp()), worldBounds.pos.x, worldBounds.getTop(), Align.center);
+        font.draw(batch, sbHP.append(HP), worldBounds.pos.x - 0.05f, worldBounds.getTop(), Align.right);
+        batch.draw(hpBar, worldBounds.pos.x - 0.05f, worldBounds.getTop() - 0.021f, hpBarWidth(0.15f), 0.02f);
         font.draw(batch, sbLevel.append(LEVEL).append(enemyEmitter.getLevel()), worldBounds.getRight(), worldBounds.getTop(), Align.right);
     }
 
@@ -269,5 +274,9 @@ public class GameScreen extends Base2DScreen {
         bulletPool.freeAllActiveObjects();
         enemyPool.freeAllActiveObjects();
         explosionPool.freeAllActiveObjects();
+    }
+
+    private float hpBarWidth(float maxWidth) {
+        return maxWidth * mainShip.getHp() / mainShip.MAIN_SHIP_HP;
     }
 }
